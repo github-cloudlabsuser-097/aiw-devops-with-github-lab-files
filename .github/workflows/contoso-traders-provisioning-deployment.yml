@@ -64,7 +64,7 @@ jobs:
         with:
           login-server: ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io
           username: ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}
-          password: ${{ steps.extract-acr-password.outputs.acrPassword }}
+          password: ${{ secrets.ACR_PASSWORD }}
       - name: docker build
         run: docker build src -f ./src/ContosoTraders.Api.Carts/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.CARTS_ACR_REPOSITORY_NAME }}:latest -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.CARTS_ACR_REPOSITORY_NAME }}:${{ github.sha }}
       - name: docker push (to acr)
@@ -99,7 +99,7 @@ jobs:
         with:
           login-server: ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io
           username: ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}
-          password: ${{ steps.extract-acr-password.outputs.acrPassword }}
+          password: ${{ secrets.ACR_PASSWORD }}
       - name: docker build
         run: docker build src -f ./src/ContosoTraders.Api.Products/Dockerfile -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}:latest -t ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io/${{ env.PRODUCTS_ACR_REPOSITORY_NAME }}:${{ github.sha }}
       - name: docker push (to acr)
@@ -117,7 +117,7 @@ jobs:
           secret-name: ${{ env.AKS_SECRET_NAME_ACR_PASSWORD }}
           container-registry-url: ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}.azurecr.io
           container-registry-username: ${{ env.ACR_NAME }}${{ secrets.ENVIRONMENT }}
-          container-registry-password: ${{ steps.extract-acr-password.outputs.acrPassword }}
+          container-registry-password: ${{ secrets.ACR_PASSWORD }}
       - name: get managedIdentityClientId
         uses: azure/CLI@v1
         id: get-managedIdentityClientId
